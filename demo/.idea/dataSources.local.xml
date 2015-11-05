@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - nook@203.151.92.175" uuid="a37bb45d-b730-4f59-8a0c-9a9f98ab19e6" />
+    <data-source name="MySQL - pin_up@203.151.92.175" uuid="38c64e49-bbc4-4231-9560-05d482526582">
+      <user-name>database</user-name>
+    </data-source>
+  </component>
+</project>
