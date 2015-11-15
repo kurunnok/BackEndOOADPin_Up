@@ -2,6 +2,7 @@ package th.ac.kmitl.ce.ooad;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Timer;
@@ -22,26 +23,30 @@ public class Topic {
     private String tag;
     private String type;
     private double rate;
+    private ArrayList<Comment> comments;
+    private int people;
+    private int account;
 
-    public String getPhoto() {
-        return photo;
-    }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     private  int topicID;
+
+
     private java.sql.Timestamp timestamp;
     private String photo;
 
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
 
-
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Topic (String nameTitle,String description,Date startDate,Date startTime,Date endDate,Date endTime,
                   String location,String tag, String type,double rate,String startDateString,String endDateString,
-                  Timestamp timestamp,int topicID,String photo){
+                  Timestamp timestamp,int topicID,String photo,int people,int account){
         this.nameTitle=nameTitle;
         this.description=description;
         this.startDate=startDate;
@@ -57,6 +62,11 @@ public class Topic {
         this.timestamp=timestamp;
         this.topicID=topicID;
         this.photo=photo;
+        this.people=people;
+        this.account=account;
+        //this.account=new AccountHandler().getAccountByAccountID(accountID);
+
+       // this.comments=getCommentsFromDatabase(this.topicID);
     }
     public  Topic(String state1,String state2,int topicID){
         this.nameTitle=state1;
@@ -73,6 +83,8 @@ public class Topic {
         this.tag="";
         this.topicID=topicID;
         this.photo="";
+        this.people=0;
+        this.account=0;
 
     }
     public  Topic(String state1,String state2){
@@ -89,11 +101,13 @@ public class Topic {
         this.location="";
         this.tag="";
         this.photo="";
-
+        this.people=0;
+        this.account=0;
     }
 
     public Topic (int topicID,String nameTitle,String description,Date startDate,Date startTime,Date endDate,Date endTime,
-                  String location,String tag, String type,double rate,String startDateString,String endDateString,Timestamp timestamp){
+                  String location,String tag, String type,double rate,String startDateString,String endDateString,Timestamp timestamp
+                    ,int people,int account){
         this.topicID=topicID;
         this.nameTitle=nameTitle;
         this.description=description;
@@ -109,6 +123,9 @@ public class Topic {
         this.tag=tag;
         this.timestamp=timestamp;
         this.photo="";
+        this.people=people;
+        this.account=account;
+       // this.account=new AccountHandler().getAccountByAccountID(accountID);
     }
 
 
@@ -229,62 +246,70 @@ public class Topic {
 
 
     public int compareTo(Topic compareTopict) {
-
         double compareRate = ((Topic) compareTopict).getRate();
-
         //ascending order
         int xx= (int )(this.rate-compareRate);
         return  xx;
-
         //descending order
         //return compareQuantity - this.quantity;
-
     }
 
     public static Comparator<Topic> TopicNameComparator = new Comparator<Topic>() {
-
         public int compare(Topic topic1, Topic topic2) {
-
             String topicName1 = topic1.getNameTitle().toUpperCase();
             String topicName2 = topic2.getNameTitle().toUpperCase();
-
             //ascending order
             return topicName1.compareTo(topicName2);
-
             //descending order
             //return fruitName2.compareTo(fruitName1);
         }
-
     };
 
     public static Comparator<Topic> StartDateComparator = new Comparator<Topic>() {
-
         public int compare(Topic topic1, Topic topic2) {
-
             String startDate1 = topic1.getStartDate().toUpperCase();
             String startDate2 = topic2.getStartDate().toUpperCase();
-
             //ascending order
             return startDate1.compareTo(startDate2);
-
             //descending order
             //return fruitName2.compareTo(fruitName1);
         }
-
     };
     public static Comparator<Topic> RateComparator = new Comparator<Topic>() {
-
         public int compare(Topic topic1, Topic topic2) {
-
             double rate1 = topic1.getRate();
             double rate2 = topic2.getRate();
-
             //ascending order
             return (int)(rate2-rate1);
-
             //descending order
             //return fruitName2.compareTo(fruitName1);
         }
-
     };
+
+//    private ArrayList<Comment> getCommentsFromDatabase(int topicID){
+//        CommentController ch=new CommentController();
+//        return ch.getCommentByTopicIDAuto(topicID);
+//    }
+public int getPeople() {
+    return people;
+}
+
+    public void setPeople(int people) {
+        this.people = people;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {this.photo = photo;
+    }
+
+    public int getAccount() {
+        return account;
+    }
+
+    public void setAccount(int account) {
+        this.account = account;
+    }
 }

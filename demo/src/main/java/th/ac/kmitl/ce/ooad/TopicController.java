@@ -30,16 +30,16 @@ public class TopicController {
         while (ite.hasNext()){
             Topic topic=ite.next();
             boolean check=false;
-            if(topic.getNameTitle().toUpperCase().equals(keyword.toUpperCase())){
+            if(topic.getNameTitle().toUpperCase().contains(keyword.toUpperCase())){
                 check=true;
             }
-            if(topic.getLocation().toUpperCase().equals(keyword.toUpperCase())){
+            if(topic.getLocation().toUpperCase().contains(keyword.toUpperCase())){
                 check=true;
             }
-            if(topic.getTag().toUpperCase().equals(keyword.toUpperCase())){
+            if(topic.getTag().toUpperCase().contains(keyword.toUpperCase())){
                 check=true;
             }
-            if(topic.getType().toUpperCase().equals(keyword.toUpperCase())){
+            if(topic.getType().toUpperCase().contains(keyword.toUpperCase())){
                 check=true;
             }
             if (check==true) {
@@ -74,6 +74,52 @@ public class TopicController {
             array=orderByRate(array);
         }
         return array;
+    }
+
+
+    public String updateRate(int topicID,double rate){
+        TopicHandler th=new TopicHandler();
+        Topic topic=th.getTopicByTopicID(topicID);
+
+        double rate2=((topic.getRate()*topic.getPeople())+rate)/(topic.getPeople()+1);
+
+        if(rate2>=5) rate2=5;
+        return th.updateRate(topicID,rate2,topic.getPeople()+1);
+    }
+
+    public String deleteTopic(int accountID,int topicID){
+        String check=null;
+        TopicHandler th=new TopicHandler();
+        AccountHandler ah=new AccountHandler();
+        Account account=ah.getAccountByAccountID(accountID);
+        if(account==null) return "fail account is null";
+        else {
+            Topic topic=th.getTopicByTopicID(topicID);
+            if (topic.getAccount()==accountID){
+                check=th.deleteTopic(topicID,accountID);
+            }
+            else return "Can't delete ,not your topic";
+        }
+
+        return check;
+    }
+
+    public ArrayList<Topic> getTopicDelete(int accountID){
+
+        TopicHandler th=new TopicHandler();
+        AccountHandler ah=new AccountHandler();
+        Account account=ah.getAccountByAccountID(accountID);
+        if(account==null) {
+            System.out.println("fail account is null");
+            return null;
+        }
+        else {
+            if (account.getAccountID()==0) {
+                ArrayList<Topic> topic=th.getTopicAllDelete();
+                return topic;
+            }
+        }
+        return null;
     }
 }
 

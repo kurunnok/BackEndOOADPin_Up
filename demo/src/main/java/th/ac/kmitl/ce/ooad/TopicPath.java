@@ -47,10 +47,11 @@ public class TopicPath {
             @RequestParam(value = "type", defaultValue = "public") String type,
             @RequestParam(value = "rate", defaultValue = "0.0") String rate,
             @RequestParam(value = "tag", defaultValue = "#") String tag,
-            @RequestParam(value = "photo", defaultValue = "" ) String photo) {
+            @RequestParam(value = "photo", defaultValue = "" ) String photo,
+            @RequestParam(value = "accountID", defaultValue = "776" ) int accountID) {
 
         TopicHandler tpm = new TopicHandler();
-        tpm.storeTopic(title, startDate, startTime, endDate, endTime, location, description, type, rate, tag,photo);
+        tpm.storeTopic(title, startDate, startTime, endDate, endTime, location, description, type, rate, tag,photo,accountID);
         return "success";
     }
 
@@ -68,10 +69,11 @@ public class TopicPath {
             @RequestParam(value = "type", defaultValue = "public") String type,
             @RequestParam(value = "rate", defaultValue = "0.0") String rate,
             @RequestParam(value = "tag", defaultValue = "#") String tag,
-            @RequestParam(value = "photo", defaultValue = "" ) String photo) {
+            @RequestParam(value = "photo", defaultValue = "" ) String photo,
+            @RequestParam(value = "accountID", defaultValue = "776" ) int accountID) {
 
         TopicHandler tpm = new TopicHandler();
-        tpm.storeTopic(title, startDate, startTime, endDate, endTime, location, description, type, rate, tag,photo);
+        tpm.storeTopic(title, startDate, startTime, endDate, endTime, location, description, type, rate, tag,photo,accountID);
         return "success";
     }
 
@@ -93,7 +95,32 @@ public class TopicPath {
         return new TopicController().searchByKeyword(keyword, order);
     }
 
+    @RequestMapping(value = ("/updateRate"), method = RequestMethod.GET)
+    public  @ResponseBody
+    String updateRate(
+            @RequestParam(value = "topicID", defaultValue = "24") int topicID,
+            @RequestParam(value = "rate", defaultValue = "0.0") double rate)
+    {
+        return new TopicController().updateRate(topicID, rate);
+    }
 
+    @RequestMapping(value = ("/deleteTopic"), method = RequestMethod.GET)
+    public  @ResponseBody
+    String deleteTopic(
+            @RequestParam(value = "accountID", defaultValue = "123") int accountID,
+            @RequestParam(value = "topicID", defaultValue = "54") int topicID)
+    {
+        return new TopicController().deleteTopic(accountID, topicID);
+    }
+
+    @RequestMapping(value = ("/getTopicDelete"), method = RequestMethod.GET)
+    public  @ResponseBody
+    ArrayList<Topic> getTopicDelete(
+            @RequestParam(value = "accountID", defaultValue = "123") int accountID,
+            @RequestParam(value = "topicID", defaultValue = "54") int topicID)
+    {
+        return new TopicController().getTopicDelete(accountID);
+    }
 }
 
 
