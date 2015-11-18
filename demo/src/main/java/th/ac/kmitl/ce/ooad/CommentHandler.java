@@ -15,11 +15,11 @@ public class CommentHandler {
     private ResultSet res;
 
     public CommentHandler() {
-        conn = ConnectionConfuguration.getConnection();
+
     }
 
     public ArrayList<Comment> getCommentAllByTopicID(int topicID) {
-
+        conn = ConnectionConfuguration.getConnection();
         try {
             st = conn.createStatement();
         } catch (Exception e) {
@@ -30,16 +30,19 @@ public class CommentHandler {
         ArrayList<Comment> list = new ArrayList<>();
 
         if (conn == null) {
-            comment = new Comment("Connection SQL Null");
-            System.out.println("conn error");
-            list.add(comment);
-            return list;
+            //comment = new Comment("Connection SQL Null");
+            //System.out.println("conn error");
+            //list.add(comment);
+            //return list;
+            conn = ConnectionConfuguration.getConnection();
         }
         if (st == null) {
             comment = new Comment("State SQL Null");
             list.add(comment);
             System.out.println("st error");
-            return list;
+            conn = ConnectionConfuguration.getConnection();
+            closeConnection();
+           return list;
         }
         try {
             res = st.executeQuery("SELECT * FROM comment WHERE topicID='"+topicID+"'");
@@ -47,6 +50,7 @@ public class CommentHandler {
                 comment = new Comment(" SQL Not Found");
                 System.out.println("rest error");
                 list.add(comment);
+                conn.close();
                 return list;
             }
             while (res.next()) {
@@ -57,15 +61,18 @@ public class CommentHandler {
                 comment=new Comment(getCommentID,getDesc,new Account(accountID));
                 list.add(comment);
             }
+            conn.close();
         } catch (Exception e) {
             comment = new Comment(e.toString() + "SQL  it   I don't know");
             System.out.println(e.toString() + " error");
             list.add(comment);
         }
+        closeConnection();
         return list;
     }
 
     public String storeComment(String desc,int accountID , int topicID) {
+        conn = ConnectionConfuguration.getConnection();
         try {
             st = conn.createStatement();
         }
@@ -91,10 +98,12 @@ public class CommentHandler {
         }
         System.out.println("create success");
 
+        closeConnection();
         return check;
     }
 
-    public String deleteComment(int  accountID , int topicID) {
+    public String deleteComment(int  accountID , int commentID) {
+        conn = ConnectionConfuguration.getConnection();
         try {
             st = conn.createStatement();
         }
@@ -108,7 +117,7 @@ public class CommentHandler {
         }
         else{
             try{
-                String query ="DELETE FROM comment WHERE accountID='"+accountID+"' AND topicID='"+topicID+"'";
+                String query ="DELETE FROM comment WHERE accountID='"+accountID+"' AND commentID='"+commentID+"'";
                 st.executeUpdate(query);
                 System.out.println("Delete comment complete ...");
                 check= "Delete comment complete ...";
@@ -120,6 +129,16 @@ public class CommentHandler {
         }
         System.out.println("Delete comment  success");
 
+        closeConnection();
         return check;
+    }
+
+    public  void closeConnection(){
+        try{
+            conn.close();
+            conn=null;
+        }catch (Exception  e){
+
+        }
     }
 }

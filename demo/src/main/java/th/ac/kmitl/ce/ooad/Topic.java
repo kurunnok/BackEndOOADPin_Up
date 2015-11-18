@@ -30,8 +30,6 @@ public class Topic {
 
 
     private  int topicID;
-
-
     private java.sql.Timestamp timestamp;
     private String photo;
 

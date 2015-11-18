@@ -14,25 +14,32 @@ import java.util.GregorianCalendar;
 @SpringBootApplication
 public class DemoApplication {
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(DemoApplication.class, args);
-        Connection connection = null;
-        try {
-            connection = ConnectionConfuguration.getConnection();
-            if (connection != null) {
-                System.out.println("Connection established");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+   public static void main(String[] args) throws Exception {
+       SpringApplication.run(DemoApplication.class, args);
+       Connection connection = null;
+       try {
+           connection = ConnectionConfuguration.getConnection();
+           if (connection != null) {
+               System.out.println("Connection established");
+           }
+       } catch (Exception e) {
+           e.printStackTrace();
+       } finally {
+           if (connection != null) {
+               try {
+                   connection.close();
+               } catch (SQLException e) {
+                   e.printStackTrace();
+               }
+           }
+       }
+       // new Alarm();
+   }
+}
+
+
+
+
 //        Date date = new Date();
 //
 //        date.setDate(12);
@@ -86,7 +93,7 @@ public class DemoApplication {
         }*/
 
 
-    }
-
-
-}
+//    }
+//
+//
+//}

@@ -1240,9 +1240,10 @@
       <column name="NAME" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
     </table>
     <table name="account" schema="" catalog="pin_up" type="TABLE">
-      <column name="accountID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="accountID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
       <column name="timestamp" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
+      <column name="fbID" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="accountID"/>
     </table>
     <table name="comment" schema="" catalog="pin_up" type="TABLE">
@@ -1256,6 +1257,12 @@
       <column name="deleteID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="topicID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="deleteID"/>
+    </table>
+    <table name="device" schema="" catalog="pin_up" type="TABLE">
+      <column name="deviceIDID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="deviceID" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="fbID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="deviceIDID"/>
     </table>
     <table name="people_has_comment" schema="" catalog="pin_up" type="TABLE">
       <column name="peopleID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>

@@ -104,9 +104,26 @@ public class TopicPath {
         return new TopicController().updateRate(topicID, rate);
     }
 
+    @RequestMapping(value = ("/updateRate"), method = RequestMethod.POST)
+    public  @ResponseBody
+    String updateRatePost(
+            @RequestParam(value = "topicID", defaultValue = "24") int topicID,
+            @RequestParam(value = "rate", defaultValue = "0.0") double rate)
+    {
+        return new TopicController().updateRate(topicID, rate);
+    }
+
     @RequestMapping(value = ("/deleteTopic"), method = RequestMethod.GET)
     public  @ResponseBody
     String deleteTopic(
+            @RequestParam(value = "accountID", defaultValue = "123") int accountID,
+            @RequestParam(value = "topicID", defaultValue = "54") int topicID)
+    {
+        return new TopicController().deleteTopic(accountID, topicID);
+    }
+    @RequestMapping(value = ("/deleteTopic"), method = RequestMethod.POST)
+    public  @ResponseBody
+    String deleteTopicPost(
             @RequestParam(value = "accountID", defaultValue = "123") int accountID,
             @RequestParam(value = "topicID", defaultValue = "54") int topicID)
     {
@@ -120,6 +137,15 @@ public class TopicPath {
             @RequestParam(value = "topicID", defaultValue = "54") int topicID)
     {
         return new TopicController().getTopicDelete(accountID);
+    }
+
+    @RequestMapping(value = ("/getTopicByAccountID"), method = RequestMethod.GET)
+    public  @ResponseBody
+    ArrayList<Topic> getTopicByAccountID(
+            @RequestParam(value = "accountID", defaultValue = "123") int accountID)
+    {
+        return new TopicHandler().getTopicByAccountID(accountID);
+
     }
 }
 

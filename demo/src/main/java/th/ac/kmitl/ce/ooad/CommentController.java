@@ -32,14 +32,32 @@ public class CommentController {
         CommentHandler ch=new CommentHandler();
         return ch.storeComment(desc, accountID, topicID);
     }
+    @RequestMapping(value = "/storeComment",method = RequestMethod.POST)
+    public @ResponseBody
+    String storeCommentPost(@RequestParam(value = "desc",defaultValue = "Hello")String desc,
+                        @RequestParam(value = "accountID",defaultValue = "9999")int accountID,
+                        @RequestParam(value = "topicID",defaultValue = "54")int topicID){
+
+        CommentHandler ch=new CommentHandler();
+        return ch.storeComment(desc, accountID, topicID);
+    }
 
     @RequestMapping(value = "/deleteComment",method = RequestMethod.GET)
     public @ResponseBody
     String deleteComment(@RequestParam(value = "accountID",defaultValue = "9999")int accountID,
-                        @RequestParam(value = "topicID",defaultValue = "54")int topicID){
+                        @RequestParam(value = "commentID",defaultValue = "0")int commentID){
 
         CommentHandler ch=new CommentHandler();
-        return ch.deleteComment(accountID,topicID);
+        return ch.deleteComment(accountID, commentID);
+    }
+
+    @RequestMapping(value = "/deleteComment",method = RequestMethod.POST)
+    public @ResponseBody
+    String deleteCommentPost(@RequestParam(value = "accountID",defaultValue = "9999")int accountID,
+                           @RequestParam(value = "commentID",defaultValue = "0")int commentID){
+
+        CommentHandler ch=new CommentHandler();
+        return ch.deleteComment(accountID, commentID);
     }
 
 

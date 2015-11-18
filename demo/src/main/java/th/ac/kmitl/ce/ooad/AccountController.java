@@ -6,33 +6,68 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 10/11/2558.
  */
 @Controller
 public class AccountController {
 
-    @RequestMapping(value = "/getAccountByAccountID",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAccountByfbID",method = RequestMethod.GET)
     public @ResponseBody Account
-            getAccountByAccountID( @RequestParam(value = "accountID",defaultValue = "999")int accountID)
+            getAccountByAccountID( @RequestParam(value = "fbID",defaultValue = "999")String fbID)
     {
-        return new AccountHandler().getAccountByAccountID(accountID);
+        return new AccountHandler().getAccountByfbID(fbID);
     }
 
     @RequestMapping(value = "/storeAccount",method = RequestMethod.GET)
     public @ResponseBody String
-    storeAccount( @RequestParam(value = "accountID",defaultValue = "999")int accountID,
-                  @RequestParam(value = "name",defaultValue = "default")String name)
+    storeAccount(
+                  @RequestParam(value = "name",defaultValue = "default")String name,
+                  @RequestParam(value = "fbID",defaultValue = "default")String fbID)
     {
-        return new AccountHandler().storeAccount(accountID, name);
+        boolean check=checkAccount(name,fbID);
+        if (check==true) return "has store";
+        else {
+            return new AccountHandler().storeAccount(name, fbID);
+        }
     }
 
 
     @RequestMapping(value = "/deleteAccount",method = RequestMethod.GET)
     public @ResponseBody String
-    deleteAccount( @RequestParam(value = "accountID",defaultValue = "999")int accountID)
+    deleteAccount( @RequestParam(value = "fbID",defaultValue = "999")String fbID)
     {
-        return new AccountHandler().deleteAccount(accountID);
+        return new AccountHandler().deleteAccount(fbID);
+    }
+    @RequestMapping(value = "/deleteAccount",method = RequestMethod.POST)
+    public @ResponseBody String
+    deleteAccountPost( @RequestParam(value = "fbID",defaultValue = "999")String fbID)
+    {
+        return new AccountHandler().deleteAccount(fbID);
     }
 
+    @RequestMapping(value = "/storeAccount",method = RequestMethod.POST)
+    public @ResponseBody String
+    storeAccountPost(
+                  @RequestParam(value = "name",defaultValue = "default")String name,
+                  @RequestParam(value = "fbID",defaultValue = "default")String fbID)
+    {
+        boolean check=checkAccount(name,fbID);
+        if (check==true) return "has store";
+        else {
+            return new AccountHandler().storeAccount(name, fbID);
+        }
+    }
+
+    private boolean checkAccount(String name,String fbID){
+        boolean check=false;
+        Account account=new AccountHandler().getAccountByfbID(fbID);
+        if (account==null) return false;
+        if (account.getName().equals(name)) check=true;
+        else check=false;
+        return check;
+
+    }
 }
