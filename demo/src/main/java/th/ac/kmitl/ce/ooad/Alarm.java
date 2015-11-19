@@ -59,7 +59,7 @@ public class Alarm {
                     String pinTime = dateFormat1.format(pin.getDate());
 
                     if (nowS.equals(pinTime)) {
-                        Device device=new DeviceHandler().getDeviceByDeviceAndfbID(pin.getAccountID());
+                        Device device=new DeviceHandler().getDeviceByfbID(pin.getAccountID());
                         Topic topic=new TopicHandler().getTopicByTopicID(pin.getTopicID());
                         parameter="{\n" +
                                 "    \"registration_ids\" :[\""+device.getDeviceID()+"\"],\n" +

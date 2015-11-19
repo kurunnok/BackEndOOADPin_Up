@@ -23,7 +23,10 @@ public class ScheduleController {
             @RequestParam(value = "date",defaultValue ="20150101" )String date,
             @RequestParam(value = "topicID",defaultValue = "23")int topicID,
             @RequestParam(value = "time",defaultValue = "090000")String time ){
-        return new ScheduleHandler().storePin(accountID,topicID,date,time);
+        if (checkPin(accountID,topicID)==true)
+            return "has store";
+        else
+            return new ScheduleHandler().storePin(accountID,topicID,date,time);
     }
 
     @RequestMapping(value = "/getPinOneDay",method = RequestMethod.POST)
@@ -34,11 +37,9 @@ public class ScheduleController {
         ArrayList<Pin> array=new ScheduleHandler().getPinByAccountIDAndDate(accountID, date2);
 
         if (!array.isEmpty()){
-           // System.out.println("Pin is not null");
             return searchTopic(array);
         }
         else {
-           // System.out.println("Pin is null");
             return null;
         }
 
@@ -49,13 +50,10 @@ public class ScheduleController {
             @RequestParam(value = "date",defaultValue ="20150101" )String date){
         String date2=date.substring(0,4)+"-"+date.substring(4,6)+"-"+date.substring(6,8);
         ArrayList<Pin> array=new ScheduleHandler().getPinByAccountIDAndDate(accountID, date2);
-
         if (!array.isEmpty()){
-            // System.out.println("Pin is not null");
             return searchTopic(array);
         }
         else {
-            // System.out.println("Pin is null");
             return null;
         }
 
@@ -84,6 +82,18 @@ public class ScheduleController {
     }
 
 
+    private boolean checkPin(int accountID,int topicID){
+        boolean check=false;
+        ArrayList<Pin> pins=new ScheduleHandler().getPinAllByAccountID(accountID);
+        Iterator<Pin> itr=pins.iterator();
+        while (itr.hasNext()){
+            Pin pin=itr.next();
+            if (pin.getTopicID()==topicID)
+                check=true;
+        }
+        return check;
+
+    }
 
 
 }

@@ -186,6 +186,86 @@ public class TopicHandler {
         return list;
     }
 
+    public ArrayList<Topic> getTopicByTag(String tagSelect){
+
+
+        conn = ConnectionConfuguration.getConnection();
+        try {
+            st = conn.createStatement();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        Topic topic = null;
+        ArrayList<Topic> list= new ArrayList<>();
+        if(conn == null){
+            topic=new Topic("Connection Null","SQL");
+            System.out.println("conn error");
+            list.add(topic);
+            closeConnection();
+            return list;
+        }
+        if(st == null){
+            topic=new Topic("State Null","SQL");
+            list.add(topic);
+            System.out.println("st error");
+            closeConnection();
+            return list;
+        }
+        try {
+            res = st.executeQuery("SELECT * FROM topic WHERE tag='"+tagSelect+"'");
+            if (res == null) {
+                topic=new Topic("Not Found", "SQL?");
+                System.out.println("rest error");
+                list.add(topic);
+                closeConnection();
+                return list;
+            }
+            while (res.next()) {
+
+                // if (res.next()) {
+                Integer getTopicID = Integer.parseInt(res.getString(1));
+                String title = res.getString(2);
+                String startDate= res.getString(3);
+                String startTime= res.getString(4);
+                String endDate= res.getString(5);
+                String endTime= res.getString(6);
+                String location=res.getString(7);
+                String description = res.getString(8);
+                String type = res.getString(9);
+                Double rate = Double.parseDouble(res.getString(10));
+                String tag=res.getString(11);
+                java.sql.Timestamp timestamp= res.getTimestamp(12);
+
+                java.sql.Date dbSqlDate = res.getDate(3);
+                java.util.Date startDate2 = new java.util.Date(dbSqlDate.getTime());
+                java.sql.Time dbSqlTime = res.getTime(4);
+                java.util.Date startTime2 = new java.util.Date(dbSqlTime.getTime());
+
+                java.sql.Date dbSqlDate2 = res.getDate(5);
+                java.util.Date endDate2 = new java.util.Date(dbSqlDate.getTime());
+                java.sql.Time dbSqlTime2 = res.getTime(6);
+                java.util.Date endTime2 = new java.util.Date(dbSqlTime.getTime());
+
+                String getPhoto=res.getString(13);
+                Integer getPeople=Integer.parseInt(res.getString(15));
+                Integer getAccountID=Integer.parseInt(res.getString(14));
+                topic = new Topic(title,description,startDate2,startTime2,endDate2,endTime2,
+                        location,tag,type,rate,startDate,endDate,timestamp,getTopicID,getPhoto,getPeople,getAccountID);
+
+                list.add(topic);
+                System.out.println(" addddddddddddd");
+                // }
+            }
+        }
+        catch(Exception e){
+            topic=new Topic(e.toString(), "SQL  it   I don't know");
+            System.out.println(e.toString()+" error");
+            list.add(topic);
+        }
+        closeConnection();
+        return list;
+    }
     public Topic getTopicByTopicID(int topicID){
 
         conn = ConnectionConfuguration.getConnection();

@@ -86,6 +86,15 @@ public class TopicPath {
         return new TopicController().searchByType(type,order);
     }
 
+    @RequestMapping(value = ("/searchByTag"), method = RequestMethod.GET)
+    public  @ResponseBody
+    ArrayList<Topic> searchByTag(
+            @RequestParam(value = "tag", defaultValue = "public") String tag,
+            @RequestParam(value = "order", defaultValue = "timestamp") String order)
+    {
+        return new TopicController().searchByTag(tag,order);
+    }
+
     @RequestMapping(value = ("/searchByKeyword"), method = RequestMethod.GET)
     public  @ResponseBody
     ArrayList<Topic> searchByKeyword(

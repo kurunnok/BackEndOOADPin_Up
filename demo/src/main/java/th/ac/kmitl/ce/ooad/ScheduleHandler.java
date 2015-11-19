@@ -149,6 +149,66 @@ public class ScheduleHandler {
     }
 
 
+    public ArrayList<Pin> getPinAllByAccountID(int accountID) {
+
+        conn = ConnectionConfuguration.getConnection();
+        try {
+            st = conn.createStatement();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Pin pin = null;
+        ArrayList<Pin> list = new ArrayList<>();
+        //  System.out.println(" error");
+        if (conn == null) {
+            pin = new Pin("Connection Null", "SQL");
+            System.out.println("conn error");
+            list.add(pin);
+            closeConnection();
+            return list;
+        }
+        if (st == null) {
+            pin = new Pin("State Null", "SQL");
+            list.add(pin);
+            System.out.println("st error");
+            closeConnection();
+            return list;
+        }
+        try {
+
+            res = st.executeQuery("SELECT * FROM pin WHERE accountID='"+accountID+"'");
+            if (res == null) {
+                pin = new Pin("Not Found", "SQL?");
+                System.out.println("rest error");
+                list.add(pin);
+                closeConnection();
+                return list;
+            }
+            while (res.next()) {
+
+                // if (res.next()) {
+                Integer getPinID = Integer.parseInt(res.getString(1));
+                Integer getScheduleID = Integer.parseInt(res.getString(2));
+                Integer getTopicID = Integer.parseInt(res.getString(3));
+
+                java.sql.Timestamp dbSqlDate = res.getTimestamp(4);
+                java.util.Date getdatetime = new java.util.Date(dbSqlDate.getTime());
+
+                Integer getAccountID = Integer.parseInt(res.getString(6));
+
+                pin = new Pin(getPinID, getScheduleID, getTopicID, getdatetime, getAccountID);
+
+                list.add(pin);
+            }
+        } catch (Exception e) {
+            pin = new Pin(e.toString(), "SQL  it   I don't know");
+            System.out.println(e.toString() + " error");
+            list.add(pin);
+        }
+        closeConnection();
+        return list;
+    }
+
     public ArrayList<Pin> getPinAll() {
 
         conn = ConnectionConfuguration.getConnection();
@@ -216,4 +276,7 @@ public class ScheduleHandler {
 
         }
     }
+
+
+
 }

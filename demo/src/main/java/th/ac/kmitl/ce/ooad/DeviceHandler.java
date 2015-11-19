@@ -17,7 +17,7 @@ public class DeviceHandler {
 
     }
 
-    public Device getDeviceByDeviceAndfbID(int fbID){
+    public Device getDeviceByfbID(int fbID){
 
         conn = ConnectionConfuguration.getConnection();
         try {
@@ -96,6 +96,37 @@ public class DeviceHandler {
         closeConnection();
         return check;
     }
+
+    public String deleteDevice(String deviceId,String fbID ) {
+        conn = ConnectionConfuguration.getConnection();
+        try {
+            st = conn.createStatement();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        String check=null;
+        if(conn==null){
+            System.out.println("Connection failed ");
+            check= "connection failed";
+        }
+        else{
+            try{
+                String query ="DELETE FROM device WHERE deviceID='"+deviceId+"'AND fbID='"+fbID+"'";
+                st.executeUpdate(query);
+                System.out.println("delete records into the table...");
+                check= "delete records into the table...";
+
+            }catch (Exception e){
+                System.out.println(e.toString());
+                check= e.toString();
+            }
+        }
+        System.out.println("delete success");
+        closeConnection();
+        return check;
+    }
+
     public  void closeConnection(){
         try{
             conn.close();
@@ -104,4 +135,6 @@ public class DeviceHandler {
 
         }
     }
+
+
 }

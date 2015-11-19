@@ -15,10 +15,12 @@ import java.util.ArrayList;
 public class AccountController {
 
     @RequestMapping(value = "/getAccountByfbID",method = RequestMethod.GET)
-    public @ResponseBody Account
+    public @ResponseBody ArrayList<Account>
             getAccountByAccountID( @RequestParam(value = "fbID",defaultValue = "999")String fbID)
     {
-        return new AccountHandler().getAccountByfbID(fbID);
+        ArrayList<Account> arrayList=new ArrayList<>();
+        arrayList.add(new AccountHandler().getAccountByfbID(fbID));
+        return arrayList;
     }
 
     @RequestMapping(value = "/storeAccount",method = RequestMethod.GET)

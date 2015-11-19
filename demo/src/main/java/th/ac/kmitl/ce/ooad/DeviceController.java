@@ -18,6 +18,12 @@ public class DeviceController {
         return new DeviceHandler().storeDevice(deviceID,fbID);
     }
 
+    @RequestMapping(value = "/deleteDevice",method = RequestMethod.POST)
+    public @ResponseBody String deleteDevice(
+            @RequestParam(value = "deviceID",defaultValue = "simple")String deviceID,
+            @RequestParam(value = "fbID",defaultValue = "0")String fbID){
+        return new DeviceHandler().deleteDevice(deviceID,fbID);
+    }
 
 
 }

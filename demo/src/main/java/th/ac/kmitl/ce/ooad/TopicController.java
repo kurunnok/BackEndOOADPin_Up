@@ -15,10 +15,18 @@ import java.util.concurrent.atomic.AtomicLong;
 @Controller
 public class TopicController {
 
+
     public ArrayList<Topic> searchByType(String type,String order){
         TopicHandler tpm = new TopicHandler();
         ArrayList<Topic> list=tpm.getTopicByType(type);
        list=sort(list,order);
+        return list;
+    }
+
+    public ArrayList<Topic> searchByTag(String tag,String order){
+        TopicHandler tpm = new TopicHandler();
+        ArrayList<Topic> list=tpm.getTopicByTag(tag);
+        list=sort(list,order);
         return list;
     }
 
